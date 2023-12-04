@@ -1,6 +1,6 @@
-const fs = require("fs");
+import fs from 'fs';
 
-class ProductManager {
+export default class ProductManager {
   constructor(path) {
     this.products = [];
     this.path = path;
@@ -23,6 +23,7 @@ class ProductManager {
 
   //devuelve el arreglo con todos los productos creados hasta ese momento - leido desde el archivo; o la cantidad especificada en el parámetro
   async getProducts(cantidad) {
+    console.log(this.path);
     if (fs.existsSync(this.path)) {
       const productos = await fs.promises.readFile(this.path, "utf-8");
       const productosJS = JSON.parse(productos);
@@ -220,5 +221,4 @@ const test = async () => {
   console.log("Eliminado por ID:", await productManager.deleteProduct(2));
 };
 
-// TESTING ==============================================================================================================================
-test();
+

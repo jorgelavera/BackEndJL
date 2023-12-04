@@ -1,0 +1,92 @@
+[
+    {
+      "id": 1,
+      "title": "producto de prueba 6",
+      "description": "Este es 666",
+      "price": 3040.5,
+      "thumbnail": "empty.jpg",
+      "code": "AC641474",
+      "stock": 299
+    },
+    {
+      "id": 2,
+      "title": "producto de prueba 1",
+      "description": "Este es 111",
+      "price": 301.5,
+      "thumbnail": "empty2.jpg",
+      "code": "A11174",
+      "stock": 27
+    },
+    {
+      "id": 3,
+      "title": "producto de prueba 3",
+      "description": "Este es 117",
+      "price": 31.5,
+      "thumbnail": "empty2.jpg",
+      "code": "A11",
+      "stock": 246
+    },
+    {
+      "id": 4,
+      "title": "producto de prueba 4",
+      "description": "Este es 161",
+      "price": 1.5,
+      "thumbnail": "empty2.jpg",
+      "code": "A114",
+      "stock": 2
+    },
+    {
+      "id": 5,
+      "title": "producto de prueba 5",
+      "description": "Este es 151",
+      "price": 401.5,
+      "thumbnail": "empty2.jpg",
+      "code": "174",
+      "stock": 1026
+    },
+    {
+      "id": 6,
+      "title": "producto de prueba 6",
+      "description": "Este es 411",
+      "price": 35.5,
+      "thumbnail": "empty2.jpg",
+      "code": "666174",
+      "stock": 526
+    },
+    {
+      "id": 7,
+      "title": "producto de prueba 7",
+      "description": "Este es 15511",
+      "price": 3.65,
+      "thumbnail": "empty2.jpg",
+      "code": "A899174",
+      "stock": 256
+    },
+    {
+      "id": 8,
+      "title": "producto de prueba 8",
+      "description": "Este es 1161",
+      "price": 81.5,
+      "thumbnail": "empty2.jpg",
+      "code": "M11174",
+      "stock": 260
+    },
+    {
+      "id": 9,
+      "title": "producto de prueba 9",
+      "description": "Este es 12211",
+      "price": 8.8,
+      "thumbnail": "empty2.jpg",
+      "code": "UU11174",
+      "stock": 26
+    },
+ {
+      "id": 10,
+      "title": "producto de prueba 10",
+      "description": "Este es 2 producto prueba",
+      "price": 2.5,
+      "thumbnail": "empty3.jpg",
+      "code": "2",
+      "stock": 1
+    }
+  ]
