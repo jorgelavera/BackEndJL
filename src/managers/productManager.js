@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from "fs";
 
 export default class ProductManager {
   constructor(path) {
@@ -19,25 +19,16 @@ export default class ProductManager {
     return id;
   }
 
-  // ------------------------------------------------------------------------------------------
+  //Para generar "codes" al azar
+  generateCode() {
+    const numero = Math.floor(Math.random() * 999) + 1;
+    const newCode = "ABC" + numero;
+    return newCode;
+  }
 
-  //devuelve el arreglo con todos los productos creados hasta ese momento - leido desde el archivo; o la cantidad especificada en el parámetro
-  async getProducts(cantidad) {
-    console.log(this.path);
-    if (fs.existsSync(this.path)) {
-      const productos = await fs.promises.readFile(this.path, "utf-8");
-      const productosJS = JSON.parse(productos);
-      if (cantidad !== undefined) {
-        if (cantidad.limit !== undefined) {
-          this.productos = productosJS.slice(0, cantidad.limit);
-          return this.products;
-        }
-      }
-      this.products = productosJS;
-      return this.products;
-    } else {
-      return [];
-    }
+  //Para poder setear el nombre del archivo desde afuera de la clase
+  setPath(nombreArchivo) {
+    this.path = nombreArchivo;
   }
 
   // Grabar el arreglo al archivo en un json
@@ -51,6 +42,28 @@ export default class ProductManager {
       console.log("(Datos grabados ok)");
     } catch (error) {
       console.log("Error al grabar el archivo");
+    }
+  }
+
+  // ------------------------------------------------------------------------------------------
+
+  //devuelve el arreglo con todos los productos creados hasta ese momento - leido desde el archivo; o la cantidad especificada en el parámetro
+  async getProducts(cantidad) {
+    console.log(this.path);
+    if (fs.existsSync(this.path)) {
+      const productos = await fs.promises.readFile(this.path, "utf-8");
+      const productosJS = JSON.parse(productos);
+      console.log(cantidad.limit);
+      if (cantidad !== undefined) {
+        if (cantidad.limit !== undefined) {
+          this.products = productosJS.slice(0, cantidad.limit);
+          return this.products;
+        }
+      }
+      this.products = productosJS;
+      return this.products;
+    } else {
+      return [];
     }
   }
 
@@ -220,5 +233,3 @@ const test = async () => {
   // Se llamará al método “deleteProduct”, se evaluará que realmente se elimine el producto o que arroje un error en caso de no existir.
   console.log("Eliminado por ID:", await productManager.deleteProduct(2));
 };
-
-
