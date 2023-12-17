@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import ProductManager from '../managers/productManager.js';
+import __dirname from "../utils.js";
 
 const productRouter = Router();
 
 const product = new ProductManager;
-product.setPath('./productos.json');
+product.setPath(__dirname +'/data/productos.json');
 
 // Probar con http://localhost:8080/products?limit=2
 productRouter.get('/', async (req, res) => {
