@@ -49,11 +49,10 @@ export default class ProductManager {
 
   //devuelve el arreglo con todos los productos creados hasta ese momento - leido desde el archivo; o la cantidad especificada en el parámetro
   async getProducts(cantidad) {
-    console.log(this.path);
+    console.log('path->'+this.path);
     if (fs.existsSync(this.path)) {
       const productos = await fs.promises.readFile(this.path, "utf-8");
       const productosJS = JSON.parse(productos);
-      console.log(cantidad.limit);
       if (cantidad !== undefined) {
         if (cantidad.limit !== undefined) {
           this.products = productosJS.slice(0, cantidad.limit);
@@ -162,7 +161,7 @@ export default class ProductManager {
 
 const test = async () => {
   // Se creará una instancia de la clase “ProductManager”
-  const productManager = new ProductManager("./prueba.json");
+  const productManager = new ProductManager(__dirname+"/data/products.json");
 
   // Se llamará “getProducts” recién creada la instancia, debe devolver un arreglo vacío []
   let allProducts = await productManager.getProducts();
