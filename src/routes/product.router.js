@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import ProductManager from '../managers/productManager.js';
 import __dirname from "../utils.js";
+import { productosModel } from '../models/productos.model.js';
 
 const productRouter = Router();
 
@@ -8,10 +9,20 @@ const product = new ProductManager;
 product.setPath(__dirname +'/data/productos.json');
 
 // Probar con http://localhost:8080/products?limit=2
+//productRouter.get('/', async (req, res) => {
+//    const productos = await product.getProducts(req.query)
+//    res.json({ message: 'Productos encontrados', productos })
+//})
+//  Ahora reemplazar por mongoose
 productRouter.get('/', async (req, res) => {
-    const productos = await product.getProducts(req.query)
-    res.json({ message: 'Productos encontrados', productos })
-})
+    try {
+        const productos = productosModel.find();
+        res.status(200).json({product});
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({message: 'product not found'});
+    }
+});
 
 // Probar con http://localhost:8080/products/4
 productRouter.get('/:pid', async (req, res) => {
