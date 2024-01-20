@@ -5,6 +5,7 @@ import  { Server } from 'socket.io';
 import productRouter from "./routes/product.router.js";
 import cartRouter from "./routes/cart.router.js";
 import viewsRouter from "./routes/views.router.js";
+import mongoose from "mongoose";
 
 const app = express();
 const PORT = 8080;
@@ -17,6 +18,7 @@ const socketServer = new Server(httpServer);
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+mongoose.connect('mongodb+srv://jlavera:fH776wZXtYg!qey@ecommerce.umtjbu2.mongodb.net/')
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
