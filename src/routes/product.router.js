@@ -8,25 +8,21 @@ const productRouter = Router();
 const product = new ProductManager();
 product.setPath(__dirname + "/data/productos.json");
 
-// Probar con http://localhost:8080/products?limit=2
-//productRouter.get('/', async (req, res) => {
-//    const productos = await product.getProducts(req.query)
-//    res.json({ message: 'Productos encontrados', productos })
-//})
-//  Ahora reemplazar por mongoose
+// Probar con http://localhost:8080/api/products?limit=2
 productRouter.get("/", async (req, res) => {
   try {
-    const productos = await productosModel.find();
-    console.log(product);
+    const allProducts = await productosModel.find();
+    let stringAllProducts = JSON.stringify(allProducts,null,4)
+    console.log(stringAllProducts);
     //res.status(200).json({product});
-    res.render("index", { product });
+    res.render("mongo", { stringAllProducts });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ message: "product not found" });
+    res.status(400).json({ message: "no se encontro el producto" });
   }
 });
 
-// Probar con http://localhost:8080/products/4
+// Probar con http://localhost:8080/api/products/4
 productRouter.get("/:pid", async (req, res) => {
   const { pid } = req.params;
   const producto = await product.getProductById(parseInt(pid));
@@ -39,7 +35,7 @@ productRouter.get("/:pid", async (req, res) => {
 
 productRouter.delete("/:pid", async (req, res) => {
   const { pid } = req.params;
-  const producto = await product.deleteProduct(parseInt(pid));
+  const producto = await productosModel.deleteOne(parseInt(pid));
   if (producto) {
     res.json({ message: "Producto eliminado", producto });
   } else {
@@ -50,21 +46,8 @@ productRouter.delete("/:pid", async (req, res) => {
 productRouter.post("/", async (req, res) => {
   let content = req.body;
   try {
-    const producto = await product.addProduct(
-      content.title,
-      content.description,
-      content.code,
-      content.price,
-      content.status,
-      content.stock,
-      content.category,
-      content.thumbnails
-    );
-    if (producto) {
-      res.status(201).json({ message: "Producto agregado", producto });
-    } else {
-      res.status(400).send("Error ?");
-    }
+    await productosModel.create({id,title,description,price,thumbnail,stock,code});
+    res.json({message: 'producto actualizado'});
   } catch (error) {
     console.error(error);
     res.status(400).send("El producto no fue agregado");
@@ -74,21 +57,12 @@ productRouter.post("/", async (req, res) => {
 
 productRouter.put("/", async (req, res) => {
   let content = req.body;
-  const producto = await product.updateProduct(
-    content.id,
-    content.title,
-    content.description,
-    content.code,
-    content.price,
-    content.status,
-    content.stock,
-    content.category,
-    content.thumbnails
-  );
-  if (producto) {
-    res.json({ message: "Producto modificado", producto });
-  } else {
-    res.status(400).send("Error ?");
+  try {
+    await productosModel.updateOne({_id: id}, updateProduct)
+    res.json({message: 'producto actualizado'});
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({message: 'no pudo actualizar'});
   }
 });
 
