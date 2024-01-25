@@ -6,8 +6,17 @@ import productRouter from "./routes/product.router.js";
 import cartRouter from "./routes/cart.router.js";
 import viewsRouter from "./routes/views.router.js";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
+import session from 'express-session';
+import FileStore from "session-file-store";
+import MongoStore from 'connect-mongo';
+
+const fileStore = FileStore(session);
 
 const app = express();
+app.use(express.static(__dirname + "/public"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 const PORT = 8080;
 const httpServer = app.listen(PORT, () => {
   console.log(`Servidor escuchando en localhost:${PORT}...`);
@@ -15,18 +24,47 @@ const httpServer = app.listen(PORT, () => {
 
 const socketServer = new Server(httpServer);
 
-app.use(express.static(__dirname + "/public"));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 mongoose.connect('mongodb+srv://jlavera:fH776wZXtYg!qey@ecommerce.umtjbu2.mongodb.net/')
+app.use(cookieParser());
+//app.use(session({
+//  secret: 'añamenguí',
+//  store: new fileStore({path: './sessions', ttl: 60, retries: 0}),
+//  resave: true,
+//  saveUninitialized: true
+//}));
 
-app.engine("handlebars", handlebars.engine());
+const hbs = handlebars.create({
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true
+  }
+});
+
+app.engine("handlebars", hbs);
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
 app.use("/api/products/", productRouter);
 app.use("/api/carts/", cartRouter);
 app.use("/", viewsRouter);
+
+app.use(session({
+  store:MongoStore.create({
+    mongoUrl:'mongodb+srv://jlavera:fH776wZXtYg!qey@ecommerce.umtjbu2.mongodb.net/',
+    ttl:15,
+  }),
+  secret:'añamagtt',
+  resave:false,
+  saveUninitialized:false
+}))
+
+app.get('/', (req,res) => {
+  if(req.session.counter) {
+    req.session.counter++;
+  } else {
+    req.session.counter = 1;
+  }
+  res.send(`page visited: ${req.session.counter} times`)
+});
 
 socketServer.on("connection", (socket) => {
   console.log("nuevo socket cliente conectado");
