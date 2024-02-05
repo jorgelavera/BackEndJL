@@ -5,6 +5,7 @@ import  { Server } from 'socket.io';
 import productRouter from "./routes/product.router.js";
 import cartRouter from "./routes/cart.router.js";
 import viewsRouter from "./routes/views.router.js";
+import sessionRouter from "./routes/session.router.js";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import session from 'express-session';
@@ -45,6 +46,7 @@ app.set("view engine", "handlebars");
 
 app.use("/api/products/", productRouter);
 app.use("/api/carts/", cartRouter);
+app.use("/api/session/", sessionRouter);
 app.use("/", viewsRouter);
 
 app.use(session({
