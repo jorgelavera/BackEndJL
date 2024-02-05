@@ -5,6 +5,22 @@ const sessionRoutes = Router();
 
 sessionRoutes.get("/github", (req, res) => {});
 
+sessionRoutes.post('/restore-password', async (req, res) => {
+  const {email, password} = req.body;
+  try {
+    const user = await userModel.findOne({email});
+    if(!user){
+      return res.status(401).send({message: 'Unauthorized'});
+    }
+    user.password = createHash(password);
+    await user.save();
+    res.send({message: 'Password updated'});
+  } catch (error) {
+    console.error(error);
+    res.status(400).send({error});
+  }
+});
+
 sessionRoutes.post("/register", async (req, res) => {
   const { first_name, last_name, email, age, password } = req.body;
   try {
