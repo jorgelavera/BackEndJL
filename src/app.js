@@ -1,5 +1,6 @@
 import express from "express";
 import handlebars from "express-handlebars";
+import passport from 'passport';
 import __dirname from "./utils.js";
 import  { Server } from 'socket.io';
 import productRouter from "./routes/product.router.js";
@@ -11,6 +12,7 @@ import cookieParser from "cookie-parser";
 import session from 'express-session';
 import FileStore from "session-file-store";
 import MongoStore from 'connect-mongo';
+import initializePassport from "./config/passport.config.js";
 
 const fileStore = FileStore(session);
 
@@ -58,6 +60,10 @@ app.use(session({
   resave:false,
   saveUninitialized:false
 }))
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', (req,res) => {
   if(req.session.counter) {

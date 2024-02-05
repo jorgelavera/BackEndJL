@@ -21,7 +21,7 @@ sessionRoutes.post('/restore-password', async (req, res) => {
   }
 });
 
-sessionRoutes.post("/register", async (req, res) => {
+sessionRoutes.post("/register", passport.authenticate('register', {failureRedirect: '/failregister'}), async (req, res) => {
   const { first_name, last_name, email, age, password } = req.body;
   try {
     const user = await userModel.create({
@@ -37,6 +37,10 @@ sessionRoutes.post("/register", async (req, res) => {
     console.error(error);
     res.status(400).send({ error });
   }
+});
+
+sessionRoutes.get('/failregister', (req, res) => {
+  res.status(400).send({error: 'Register failed'});
 });
 
 sessionRoutes.post("/login", async (req, res) => {
