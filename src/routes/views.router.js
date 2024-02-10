@@ -1,7 +1,7 @@
 import { Router } from "express";
 import ProductManager from "../dao/managers/productManager.js";
 import __dirname from "../utils.js";
-import { productosModel } from '../dao/models/productos.model.js';
+import  { checkAuth } from "../middlewares/authentication.middleware.js";
 
 //const router = express.Router();
 const viewsRouter = Router();
@@ -25,9 +25,10 @@ viewsRouter.get('/register', async (req, res) => {
   }
 });
 
-viewsRouter.get('/', async (req, res) => {
+viewsRouter.get('/', checkAuth, async (req, res) => {
   try {
-      res.render("index", {product} );
+      const user = req.session.user;
+      res.render("index", user);
       } catch (error) {
       console.error(error);
       res.status(400).json({message: 'problem found'});

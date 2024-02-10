@@ -1,6 +1,8 @@
 <div>
     <h1>Backend</h1>
-    <button id="logoutBtn" type="button">Close Session</button>
+    <h2>Bienvenido {{first_name}} {{last_name}}</h2>
+    <form action="/api/session/logout" method="post">
+        <button id="logoutBtn" type="button">Close Session</button>
+    </form>
     <script src="js/index.js"></script>
 </div>
-

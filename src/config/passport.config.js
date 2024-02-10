@@ -25,10 +25,26 @@ const initializePassport = () => {
         }
     ));
 
+    passport.use('login', new LocalStrategy(
+        {passReqToCallback: true, usernameField: 'email'},
+        async (username, password, done) => {
+            try {
+                console.log(username)
+                const user = await userModel.findOne({email: username});
+            console.log(user)
+            if (!user || !isValidPassword(user, password)){
+                return done(null, false);
+            }
+            return done(null,user);
+            } catch (error) {
+            return done(error);
+            }
+        }
+    ))
     passport.serializeUser((user, done) => {
         done(null, user._id);
     });
-    
+
     passport.deserializeUser( async (id, done) => {
         const user = await userModel.findOne({_id: id});
         done(null, user);
