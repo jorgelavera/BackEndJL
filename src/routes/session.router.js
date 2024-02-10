@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { isValidPassword } from "../utils/bcrypt.js";
+import passport from "passport";
+
 
 const sessionRoutes = Router();
 
@@ -22,21 +24,7 @@ sessionRoutes.post('/restore-password', async (req, res) => {
 });
 
 sessionRoutes.post("/register", passport.authenticate('register', {failureRedirect: '/failregister'}), async (req, res) => {
-  const { first_name, last_name, email, age, password } = req.body;
-  try {
-    const user = await userModel.create({
-      first_name,
-      last_name,
-      age,
-      email,
-      password: createHash(password),
-    });
-    req.session.user = user;
-    res.redirect("/");
-  } catch (error) {
-    console.error(error);
-    res.status(400).send({ error });
-  }
+  res.status(201).send({message: 'User registered'});
 });
 
 sessionRoutes.get('/failregister', (req, res) => {

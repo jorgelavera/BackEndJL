@@ -25,7 +25,14 @@ const initializePassport = () => {
                 return done('User could not be retreived: ' + error);
             }
         }
-    ))
+    ));
+    passport.serializeUser((user, done) => {
+        done(null, user._id);
+    });
+    passport.deserializeUser( async (id, done) => {
+        const user = await userModel.findOne({_id: id});
+        done(null, user);
+    });
 }
 
 export default initializePassport;
