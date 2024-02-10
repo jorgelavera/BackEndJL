@@ -1,9 +1,7 @@
 import passport from "passport";
-import local from "passport-local";
+import { Strategy as LocalStrategy } from "passport-local";
 import { userModel } from "../dao/models/user.model.js";
-import { createHash, isValidPassword } from "../utils/bcrypt.js";
-
-const LocalStrategy = local.Strategy;
+import { createHash, isValidPassword } from "./bcrypt.js";
 
 const initializePassport = () => {
     passport.use('register', new LocalStrategy(
@@ -22,13 +20,15 @@ const initializePassport = () => {
                 const result = await userModel.create(newUser);
                 return done(null, result);
             } catch (error) {
-                return done('User could not be retreived: ' + error);
+                return done('User could not be read: ' + error);
             }
         }
     ));
+
     passport.serializeUser((user, done) => {
         done(null, user._id);
     });
+    
     passport.deserializeUser( async (id, done) => {
         const user = await userModel.findOne({_id: id});
         done(null, user);

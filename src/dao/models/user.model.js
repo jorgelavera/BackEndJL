@@ -7,23 +7,21 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  last_name: {
-    type: String,
-    required: true
-  },
+  last_name: String,
   email: {
     type: String,
     required: true,
     unique: true
   },
-  age: {
-    type: String,
-    required: true
-  },
+  age: Number,
   password: {
     type: String,
     required: true
   },
+  role: {
+    type: String,
+    default: 'user'
+  }
 });
 
 export const userModel = mongoose.model(userCollection, userSchema);

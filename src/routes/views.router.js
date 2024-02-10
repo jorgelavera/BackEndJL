@@ -7,6 +7,24 @@ import { productosModel } from '../dao/models/productos.model.js';
 const viewsRouter = Router();
 const product = new ProductManager;
 
+viewsRouter.get('/login', async (req, res) => {
+  try {
+      res.render("login");
+      } catch (error) {
+      console.error(error);
+      res.status(400).json({message: 'problem found'});
+  }
+});
+
+viewsRouter.get('/register', async (req, res) => {
+  try {
+      res.render("register");
+      } catch (error) {
+      console.error(error);
+      res.status(400).json({message: 'problem found'});
+  }
+});
+
 viewsRouter.get('/', async (req, res) => {
   try {
       res.render("index", {product} );
@@ -15,7 +33,6 @@ viewsRouter.get('/', async (req, res) => {
       res.status(400).json({message: 'problem found'});
   }
 });
-
 
 viewsRouter.get("/realtimeproducts", async (req, res) => {
     try {

@@ -1,9 +1,17 @@
 import { Router } from "express";
-import { isValidPassword } from "../utils/bcrypt.js";
+import { isValidPassword } from "../config/bcrypt.js";
 import passport from "passport";
 
 
 const sessionRoutes = Router();
+
+sessionRoutes.post("/register", passport.authenticate('register', {failureRedirect: '/failregister'}), async (req, res) => {
+  res.status(201).send({message: 'User registered'});
+});
+
+sessionRoutes.get('/failregister', (req, res) => {
+  res.status(400).send({error: 'Register failed'});
+});
 
 sessionRoutes.get("/github", (req, res) => {});
 
@@ -23,13 +31,6 @@ sessionRoutes.post('/restore-password', async (req, res) => {
   }
 });
 
-sessionRoutes.post("/register", passport.authenticate('register', {failureRedirect: '/failregister'}), async (req, res) => {
-  res.status(201).send({message: 'User registered'});
-});
-
-sessionRoutes.get('/failregister', (req, res) => {
-  res.status(400).send({error: 'Register failed'});
-});
 
 sessionRoutes.post("/login", async (req, res) => {
   const { email, password } = req.body;
