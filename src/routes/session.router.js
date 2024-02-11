@@ -1,18 +1,18 @@
 import { Router } from "express";
-import { isValidPassword } from "../config/bcrypt.js";
 import passport from "passport";
+import { userModel } from "../dao/models/user.model.js";
+import { createHash } from "../config/bcrypt.js";
 
 const sessionRoutes = Router();
 
-sessionRoutes.post(
-  "/register",
-  passport.authenticate("register", { failureRedirect: "/failregister" }),
+sessionRoutes.post("/register",
+  passport.authenticate("register", { failureRedirect: "/user-register-failed" }),
   async (req, res) => {
-    res.status(201).send({ message: "User registered" });
+    res.render('user-ok');
   }
 );
 
-sessionRoutes.get("/failregister", (req, res) => {
+sessionRoutes.get("/user-register-failed", (req, res) => {
   res.status(400).send({ error: "Register failed" });
 });
 
@@ -34,7 +34,9 @@ sessionRoutes.post("/restore-password", async (req, res) => {
   }
 });
 
-sessionRoutes.post("/login", passport.authenticate("login", { failureRedirect: "/fail-login" }), (req, res) => {
+sessionRoutes.post("/login",
+  passport.authenticate("login", { failureRedirect: "/fail-login" }),
+  (req, res) => {
     if (!req.user) {
       return res.status(401).send({ message: "Invalid credentials" });
     }
@@ -49,8 +51,8 @@ sessionRoutes.post("/login", passport.authenticate("login", { failureRedirect: "
 );
 
 sessionRoutes.post("/logout", (req, res) => {
-    req.session.user = null;
-    res.redirect('/login');
+  req.session.user = null;
+  res.redirect("/login");
 });
 
 export default sessionRoutes;

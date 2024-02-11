@@ -1,6 +1,12 @@
 import { isValidPassword } from "../config/bcrypt.js";
 
 export const checkAuth = (req, res, next) => {
+  console.log('1 =>'+req.body)
+  if (req.body == '[object Object]') {
+    return res.redirect("/login");
+  }
+  console.log('2 =>'+req.session.user)
+  console.log('3 => ^^^^^^^^^^^^')
   if (!req.session.user) {
     return res.redirect("/login");
   }
