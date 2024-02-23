@@ -1,4 +1,4 @@
-import { isValidPassword } from "../config/bcrypt.js";
+import { isValidPassword } from "../configs/bcrypt.js";
 
 export const checkAuth = (req, res, next) => {
   console.log('1 =>'+req.body)

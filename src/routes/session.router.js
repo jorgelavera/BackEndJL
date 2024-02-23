@@ -1,7 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import { userModel } from "../dao/models/user.model.js";
-import { createHash } from "../config/bcrypt.js";
+import { createHash } from "../configs/bcrypt.js";
 
 const sessionRoutes = Router();
 
