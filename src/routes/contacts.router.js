@@ -3,11 +3,11 @@ import MemoryContacts from "../dao/memory/contacts.memory.js";
 import MongoContacts from "../dao/mongo/contacts.mongo.js";
 
 const contactRoutes = Router();
-const contactService = new MemoryContacts(); // Here select model
+const contactService = new MongoContacts(); // Here select model
 
 contactRoutes.get("/", async (req, res) => {
   const result = await contactService.get();
-  return result;
+  res.send(result);
 });
 
 contactRoutes.post("/", async (req, res) => {

@@ -1,3 +1,4 @@
+import { MONGO_CONNECT, SECRET, PERSISTENCE } from "./configs/config.js";
 import express from "express";
 import handlebars from "express-handlebars";
 import passport from "passport";
@@ -13,7 +14,6 @@ import cookieParser from "cookie-parser";
 import FileStore from "session-file-store";
 import initializePassport from "./configs/passport.config.js";
 import { Server } from "socket.io";
-import { secret, mongoose_conn_str } from "./configs/consts.js";
 import contactRoutes from "./routes/contacts.router.js";
 
 const fileStore = FileStore(session);
@@ -28,7 +28,11 @@ const httpServer = app.listen(PORT, () => {
 });
 const socketServer = new Server(httpServer);
 
-mongoose.connect(mongoose_conn_str);
+console.log("***********************************************");
+console.log(`MODEL: ${PERSISTENCE}`);
+console.log("***********************************************");
+
+mongoose.connect(MONGO_CONNECT);
 app.use(cookieParser());
 
 const hbs = handlebars.create({
@@ -48,9 +52,9 @@ app.use("/", viewsRouter);
 
 app.use(
   session({
-    secret: secret,
+    secret: SECRET,
     store: MongoStore.create({
-      mongoUrl: mongoose_conn_str,
+      mongoUrl: MONGO_CONNECT,
       ttl: 15,
     }),
     resave: true,
