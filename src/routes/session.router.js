@@ -1,14 +1,17 @@
 import { Router } from "express";
 import passport from "passport";
-import { userModel } from "../dao/models/user.model.js";
+import userModel from "../dao/models/user.model.js";
 import { createHash } from "../configs/bcrypt.js";
 
 const sessionRoutes = Router();
 
-sessionRoutes.post("/register",
-  passport.authenticate("register", { failureRedirect: "/user-register-failed" }),
+sessionRoutes.post(
+  "/register",
+  passport.authenticate("register", {
+    failureRedirect: "/user-register-failed",
+  }),
   async (req, res) => {
-    res.render('user-ok');
+    res.render("user-ok");
   }
 );
 
@@ -34,7 +37,8 @@ sessionRoutes.post("/restore-password", async (req, res) => {
   }
 });
 
-sessionRoutes.post("/login",
+sessionRoutes.post(
+  "/login",
   passport.authenticate("login", { failureRedirect: "/fail-login" }),
   (req, res) => {
     if (!req.user) {

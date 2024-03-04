@@ -6,15 +6,19 @@ import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 import __dirname from "./utils.js";
 import session from "express-session";
-import productRouter from "./routes/product.router.js";
-import cartRouter from "./routes/cart.router.js";
-import viewsRouter from "./routes/views.router.js";
-import sessionRouter from "./routes/session.router.js";
 import cookieParser from "cookie-parser";
 import FileStore from "session-file-store";
 import initializePassport from "./configs/passport.config.js";
 import { Server } from "socket.io";
+
+import productRouter from "./routes/product.router.js";
+import cartRouter from "./routes/cart.router.js";
+import viewsRouter from "./routes/views.router.js";
+import sessionRouter from "./routes/session.router.js";
 import contactRoutes from "./routes/contacts.router.js";
+import userRouter from "./routes/users.router.js";
+import ordersRouter from "./routes/orders.router.js";
+import busainessRouter from "./routes/business.router.js";
 
 const fileStore = FileStore(session);
 
@@ -49,6 +53,9 @@ app.use("/api/carts/", cartRouter);
 app.use("/api/session/", sessionRouter);
 app.use("/api/contacts", contactRoutes);
 app.use("/", viewsRouter);
+app.use("/api/users/", userRouter);
+app.use("/api/orders", ordersRouter);
+app.use("/api/business", busainessRouter);
 
 app.use(
   session({
