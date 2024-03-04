@@ -2,14 +2,15 @@ import { MONGO_CONNECT, SECRET, PERSISTENCE } from "./configs/config.js";
 import express from "express";
 import handlebars from "express-handlebars";
 import passport from "passport";
-import mongoose from "mongoose";
-import MongoStore from "connect-mongo";
 import __dirname from "./utils.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import FileStore from "session-file-store";
 import initializePassport from "./configs/passport.config.js";
 import { Server } from "socket.io";
+import mongoose from "mongoose";
+import MongoStore from "connect-mongo";
+import cors from "cors";
 
 import productRouter from "./routes/product.router.js";
 import cartRouter from "./routes/cart.router.js";
@@ -48,6 +49,7 @@ app.engine("handlebars", hbs.engine);
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
+app.use(cors());
 app.use("/api/products/", productRouter);
 app.use("/api/carts/", cartRouter);
 app.use("/api/session/", sessionRouter);

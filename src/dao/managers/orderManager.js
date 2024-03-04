@@ -1,7 +1,7 @@
 import orderModel from "../models/order.model.js";
 
 export default class orderManager {
-  getorders = async () => {
+  getOrders = async () => {
     try {
       const orders = await orderModel.find();
       return orders;
@@ -10,7 +10,7 @@ export default class orderManager {
       return null;
     }
   };
-  getorderById = async (id) => {
+  getOrderById = async (id) => {
     try {
       const order = await orderModel.findOne({ _id: id });
       return order;

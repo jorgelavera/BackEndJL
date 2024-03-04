@@ -26,7 +26,7 @@ export const createOrder = async (req, res) => {
   const { userId, businessId, products } = req.body;
   const user = await userService.getUserById(userId);
   const business = await businessService.getBusinessById(businessId);
-  const order = business.products.filter((product) =>
+  const order = business?.products.filter((product) =>
     products.includes(product.id)
   );
   const totalPrice = order.reduce((acc, prev) => acc + prev.price, 0);
