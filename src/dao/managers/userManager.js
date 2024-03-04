@@ -10,6 +10,7 @@ export default class UserManager {
       return null;
     }
   };
+
   getUserById = async (id) => {
     try {
       const user = await userModel.findOne({ _id: id });
@@ -19,6 +20,7 @@ export default class UserManager {
       return null;
     }
   };
+
   saveUser = async (user) => {
     try {
       const result = await userModel.create(user);
@@ -28,6 +30,7 @@ export default class UserManager {
       return null;
     }
   };
+
   updateUser = async (id, user) => {
     try {
       const result = await userModel.updateOne({ _id: id }, { $set: user });
