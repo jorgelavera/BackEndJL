@@ -28,6 +28,7 @@ const userSchema = mongoose.Schema({
       ref: "orders",
     },
   ],
+  id: Number,
 });
 
 const userModel = mongoose.model(userCollection, userSchema);

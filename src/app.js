@@ -20,6 +20,7 @@ import contactRoutes from "./routes/contacts.router.js";
 import userRouter from "./routes/users.router.js";
 import ordersRouter from "./routes/orders.router.js";
 import busainessRouter from "./routes/business.router.js";
+import { errorHandler } from "./middlewares/error.js";
 
 const fileStore = FileStore(session);
 
@@ -58,6 +59,7 @@ app.use("/", viewsRouter);
 app.use("/api/users/", userRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/business", busainessRouter);
+app.use(errorHandler);
 
 app.use(
   session({
