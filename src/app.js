@@ -21,6 +21,7 @@ import userRouter from "./routes/users.router.js";
 import ordersRouter from "./routes/orders.router.js";
 import busainessRouter from "./routes/business.router.js";
 import { errorHandler } from "./middlewares/error.js";
+import { addLogger } from "./middlewares/logger.js";
 
 const fileStore = FileStore(session);
 
@@ -60,6 +61,7 @@ app.use("/api/users/", userRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/business", busainessRouter);
 app.use(errorHandler);
+app.use(addLogger);
 
 app.use(
   session({
