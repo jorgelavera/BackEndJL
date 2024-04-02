@@ -8,13 +8,11 @@ const productRouter = Router();
 const product = new ProductManager();
 product.setPath(__dirname + "/data/productos.json");
 
-// Probar con http://localhost:8080/api/products?limit=2
 productRouter.get("/", async (req, res) => {
   try {
     const allProducts = await productosModel.find();
-    let stringAllProducts = JSON.stringify(allProducts,null,4)
+    let stringAllProducts = JSON.stringify(allProducts, null, 4);
     console.log(stringAllProducts);
-    //res.status(200).json({product});
     res.render("mongo", { stringAllProducts });
   } catch (error) {
     console.error(error);
@@ -22,7 +20,6 @@ productRouter.get("/", async (req, res) => {
   }
 });
 
-// Probar con http://localhost:8080/api/products/4
 productRouter.get("/:pid", async (req, res) => {
   const { pid } = req.params;
   const producto = await product.getProductById(parseInt(pid));
@@ -46,23 +43,30 @@ productRouter.delete("/:pid", async (req, res) => {
 productRouter.post("/", async (req, res) => {
   let content = req.body;
   try {
-    await productosModel.create({id,title,description,price,thumbnail,stock,code});
-    res.json({message: 'producto actualizado'});
+    await productosModel.create({
+      id,
+      title,
+      description,
+      price,
+      thumbnail,
+      stock,
+      code,
+    });
+    res.json({ message: "producto actualizado" });
   } catch (error) {
     console.error(error);
     res.status(400).send("El producto no fue agregado");
-
   }
 });
 
 productRouter.put("/", async (req, res) => {
   let content = req.body;
   try {
-    await productosModel.updateOne({_id: id}, updateProduct)
-    res.json({message: 'producto actualizado'});
+    await productosModel.updateOne({ _id: id }, updateProduct);
+    res.json({ message: "producto actualizado" });
   } catch (error) {
     console.error(error);
-    res.status(400).json({message: 'no pudo actualizar'});
+    res.status(400).json({ message: "no pudo actualizar" });
   }
 });
 

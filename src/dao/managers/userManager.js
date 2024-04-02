@@ -1,5 +1,6 @@
 import userModel from "../models/user.model.js";
 
+// mongoose users
 export default class UserManager {
   getUsers = async () => {
     try {
