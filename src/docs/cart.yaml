@@ -1,0 +1,58 @@
+paths:
+  /api/carts:
+    get:
+      summary: get all the Carts
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Carts retrieved ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "400":
+          description: Cart not retrieved
+        "500":
+          description: Server error
+
+  /api/carts/{uid}:
+    get:
+      summary: get a cart identified by id
+      tags:
+        - Carts
+      parameters:
+        - name: uid
+          in: path
+          description: Cart internal id
+          schema:
+            type: String
+      responses:
+        "200":
+          description: Cart retrieved ok
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Carts"
+        "400":
+          description: Cart not retrieved
+        "500":
+          description: Server error
+
+components:
+  schemas:
+    Carts:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Mongo generated internal id
+        description:
+          type: String
+          description: Cart description
+
+      example:
+        _id: ObjectId()"65ce4958334be989708f95")
+        description: carrito de compras
