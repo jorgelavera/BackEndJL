@@ -1,13 +1,11 @@
 import mongoose from "mongoose";
 import User from "../dao/managers/userManager.js";
-import Assert from "assert";
+import { expect } from "chai";
 import { MONGO_CONNECT_TEST } from "../configs/config.js";
-
-const assert = Assert.strict;
 
 mongoose.connect(MONGO_CONNECT_TEST);
 
-describe("Testing de users", () => {
+describe("Testing users with chai", () => {
   before(function () {
     this.userDao = new User();
   });
@@ -18,6 +16,6 @@ describe("Testing de users", () => {
 
   it("Get should return an array", async function () {
     const result = await this.userDao.get();
-    assert.strictEqual(Array.isArray(result), true);
+    expect(result).to.be.an("array");
   });
 });
