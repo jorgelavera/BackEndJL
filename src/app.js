@@ -11,6 +11,8 @@ import { Server } from "socket.io";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 import cors from "cors";
+import swaggerJSDoc from "swagger-jsdoc";
+import SwaggerUiExpress from "swagger-ui-express";
 
 import productRouter from "./routes/product.router.js";
 import cartRouter from "./routes/cart.router.js";
@@ -22,6 +24,7 @@ import ordersRouter from "./routes/orders.router.js";
 import busainessRouter from "./routes/business.router.js";
 import { errorHandler } from "./middlewares/error.js";
 import { addLogger } from "./middlewares/logger.js";
+import { swaggerConfiguration } from "./configs/swagger.js";
 
 const fileStore = FileStore(session);
 
@@ -34,6 +37,9 @@ const httpServer = app.listen(PORT, () => {
   console.log(`Server listening on localhost:${PORT}...`);
 });
 const socketServer = new Server(httpServer);
+
+const specs = swaggerJSDoc(swaggerConfiguration);
+app.use("/apidocs", SwaggerUiExpress.serve, SwaggerUiExpress.setup(specs));
 
 console.log("***********************************************");
 console.log(`MODEL: ${PERSISTENCE}`);

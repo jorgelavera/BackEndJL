@@ -1,0 +1,78 @@
+paths:
+  /api/products:
+    get:
+      summary: get all the products
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Products retrieved ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "400":
+          description: Product not retrieved
+        "500":
+          description: Server error
+
+  /api/products/{uid}:
+    get:
+      summary: get a product identified by id
+      tags:
+        - Products
+      parameters:
+        - name: uid
+          in: path
+          description: Product internal id
+          schema:
+            type: String
+      responses:
+        "200":
+          description: Product retrieved ok
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Products"
+        "400":
+          description: Products not retrieved
+        "500":
+          description: Server error
+
+components:
+  schemas:
+    Products:
+      type: object
+      properties:
+        id:
+          type: Number
+          description: Product identification
+        title:
+          type: String
+          description: Short name of the product
+        description:
+          type: String
+          description: Complete description of the product
+        price:
+          type: Number
+          description: Price of sale
+        thumbnail:
+          type: String
+          description: Link name of the image file
+        code:
+          type: String
+          description: Coded id of the product
+        stock:
+          type: Number
+          description: Amount of stock available in total
+
+      example:
+        id: 123456
+        title: Cacerola
+        description: redonda de aluminio 20cm con tapa
+        price: 75
+        thumbnail: https://ollasessengabi.com.ar/wp-content/uploads/2022/10/Cacerola-Aqua-20cm-1.jpg
+        code: CAC020A
+        stock: 3

@@ -1,73 +1,40 @@
 import { Router } from "express";
-import ProductManager from "../dao/managers/productManager.js";
-import __dirname from "../utils.js";
-import { productosModel } from "../dao/models/productos.model.js";
+import MongoProducts from "../dao/mongo/products.mongo.js";
 
-const productRouter = Router();
+const productRoutes = Router();
+const Productservice = new MongoProducts(); // Here select model
 
-const product = new ProductManager();
-product.setPath(__dirname + "/data/productos.json");
-
-productRouter.get("/", async (req, res) => {
-  try {
-    const allProducts = await productosModel.find();
-    let stringAllProducts = JSON.stringify(allProducts, null, 4);
-    console.log(stringAllProducts);
-    res.render("mongo", { stringAllProducts });
-  } catch (error) {
-    console.error(error);
-    res.status(400).json({ message: "no se encontro el producto" });
-  }
+productRoutes.get("/", async (req, res) => {
+  const result = await Productservice.get();
+  res.send(result);
 });
 
-productRouter.get("/:pid", async (req, res) => {
-  const { pid } = req.params;
-  const producto = await product.getProductById(parseInt(pid));
-  if (producto) {
-    res.json({ message: "Producto encontrado", producto });
-  } else {
-    res.status(400).send("El producto no existe");
+productRoutes.post("/", async (req, res) => {
+  const Product = req.body;
+  const result = await Productservice.post(Product);
+  if (result) {
+    return res.status(201).send({ message: "Product created" });
   }
+  res.status(400).send({ message: "Error creating Product" });
 });
 
-productRouter.delete("/:pid", async (req, res) => {
-  const { pid } = req.params;
-  const producto = await productosModel.deleteOne(parseInt(pid));
-  if (producto) {
-    res.json({ message: "Producto eliminado", producto });
-  } else {
-    res.status(400).send("El producto no existe");
+productRoutes.put("/:CId", async (req, res) => {
+  const { CId } = req.params;
+  const concat = req.body;
+  const result = await Productservice.put(CId, concat);
+  if (result) {
+    return res.send({ message: "Product updated" });
   }
+  res.status(400).send({ message: "Error updating Product" });
 });
 
-productRouter.post("/", async (req, res) => {
-  let content = req.body;
-  try {
-    await productosModel.create({
-      id,
-      title,
-      description,
-      price,
-      thumbnail,
-      stock,
-      code,
-    });
-    res.json({ message: "producto actualizado" });
-  } catch (error) {
-    console.error(error);
-    res.status(400).send("El producto no fue agregado");
+productRoutes.delete("/:CId", async (req, res) => {
+  const { CId } = req.params;
+  const result = await Productservice.delete(CId);
+  if (result) {
+    return res.send({ message: "Product deleted" });
   }
+  res.status(400).send({ message: "Error deleting Product" });
 });
 
-productRouter.put("/", async (req, res) => {
-  let content = req.body;
-  try {
-    await productosModel.updateOne({ _id: id }, updateProduct);
-    res.json({ message: "producto actualizado" });
-  } catch (error) {
-    console.error(error);
-    res.status(400).json({ message: "no pudo actualizar" });
-  }
-});
-
-export default productRouter;
+export default productRoutes;

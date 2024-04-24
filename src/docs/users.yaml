@@ -1,0 +1,134 @@
+paths:
+  /api/users:
+    get:
+      summary: get all the users
+      tags:
+        - Users
+      responses:
+        "200":
+          description: User retrieved ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Users"
+        "400":
+          description: User not retrieved
+        "500":
+          description: Server error
+
+  /api/users/{uid}:
+    get:
+      summary: get a user identified by id
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          description: User internal id
+          schema:
+            type: String
+      responses:
+        "200":
+          description: User retrieved ok
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Users"
+        "400":
+          description: User not retrieved
+        "500":
+          description: Server error
+
+    put:
+      summary: update a user identified by id
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          description: User internal id
+          schema:
+            type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateUser"
+      responses:
+        "200":
+          description: User updated ok
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Users"
+        "400":
+          description: User not retrieved
+        "500":
+          description: Server error
+
+components:
+  schemas:
+    Users:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Mongo generated internal id
+        first_name:
+          type: String
+          description: User first name
+        last_name:
+          type: String
+          description: User surname
+        email:
+          type: String
+          description: email
+        age:
+          type: Number
+          description: Age in years
+        password:
+          type: String
+          description: Encoded password
+        role:
+          type: String
+          description: User role
+      example:
+        _id: ObjectId()"65c80c5afb7abbe989708f95")
+        first_name: Jorge Alejandro
+        last_name: Lavera
+        email: jlavera@gmail.com
+        age: 57
+        password: $2b$10$xoQ796p.n/dQsUufqDXNo.IXM.199RVQphPzbOTPRYq23elNtM58S
+        role: user
+  requestBodies:
+    updateUser:
+      type: Object
+      properties:
+        first_name:
+          type: String
+          description: User first name
+        last_name:
+          type: String
+          description: User surname
+        email:
+          type: String
+          description: email
+        age:
+          type: Number
+          description: Age in years
+        password:
+          type: String
+          description: Password unencoded
+        role:
+          type: String
+          description: User role
+      example:
+        first_name: Jorge Alejandro
+        last_name: Lavera
+        email: jlavera@gmail.com
+        age: 57
+        password: yourpassword
+        role: user
