@@ -4,6 +4,7 @@ import MongoContacts from "../dao/mongo/contacts.mongo.js";
 
 const contactRoutes = Router();
 const contactService = new MongoContacts(); // Here select model
+// app.use("/api/contacts", contactRoutes);
 
 contactRoutes.get("/", async (req, res) => {
   const result = await contactService.get();

@@ -9,7 +9,7 @@ export const getUsers = async (req, res) => {
   if (!result) {
     return res.status(404).send({ message: "No user found" });
   }
-  res.send({ status: "success", result });
+  res.send({ status: "Users retrieved successfully", result });
 };
 
 export const getUserById = async (req, res) => {
@@ -18,7 +18,7 @@ export const getUserById = async (req, res) => {
   if (!result) {
     return res.status(404).send({ message: "User not found" });
   }
-  res.send({ status: "success", result });
+  res.send({ status: "User retrieved successfully", result });
 };
 
 export const saveUser = async (req, res) => {
@@ -40,7 +40,7 @@ export const saveUser = async (req, res) => {
   if (!result) {
     return res.status(400).send({ message: "Could not create user" });
   }
-  res.status(201).send({ status: "success", result });
+  res.status(201).send({ status: "User created successfully", result });
 };
 
 export const updateUser = async (req, res) => {
@@ -50,5 +50,16 @@ export const updateUser = async (req, res) => {
   if (!result) {
     return res.status(400).send({ message: "Could not update user" });
   }
-  res.status(201).send({ status: "success", result });
+  res.status(201).send({ status: "User updated successfully", result });
+};
+
+export const deleteUser = async (req, res) => {
+  const { uId } = req.params;
+  const result = await userService.deleteUser(uId);
+  if (!result) {
+    return res.status(400).send({ message: "Could not delete user" });
+  }
+  res
+    .status(200)
+    .send({ status: "success", message: "User deleted successfully" });
 };

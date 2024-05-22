@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import User from "../dao/managers/userManager.js";
+import { saveUser, getUsers } from "../controllers/user.controller.js";
 import Assert from "assert";
 import { MONGO_CONNECT_TEST } from "../configs/config.js";
 
@@ -7,17 +7,18 @@ const assert = Assert.strict;
 
 mongoose.connect(MONGO_CONNECT_TEST);
 
-describe("Testing de users", () => {
-  before(function () {
-    this.userDao = new User();
+// Test de ruta GET - debe traer todos los usuarios
+describe("Testing de Save users", () => {
+  it("SaveUser should save a user", async function () {
+    const result = await saveUser();
+    done();
   });
+});
 
-  beforeEach(function () {
-    this.timeout(5000);
-  });
-
+describe("Testing de Get users", () => {
   it("Get should return an array", async function () {
-    const result = await this.userDao.get();
+    const result = await getUsers();
     assert.strictEqual(Array.isArray(result), true);
+    done();
   });
 });

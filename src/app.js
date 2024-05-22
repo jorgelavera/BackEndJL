@@ -28,7 +28,7 @@ import { swaggerConfiguration } from "./configs/swagger.js";
 
 const fileStore = FileStore(session);
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

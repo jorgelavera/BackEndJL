@@ -41,4 +41,14 @@ export default class UserManager {
       return null;
     }
   };
+
+  deleteUser = async (id) => {
+    try {
+      const result = await userModel.deleteOne({ _id: id });
+      return result;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
 }

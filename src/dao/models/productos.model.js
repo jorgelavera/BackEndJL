@@ -10,6 +10,10 @@ const productosSchema = mongoose.Schema({
   thumbnail: String,
   code: String,
   stock: Number,
+  owner: {
+    type: String,
+    default: "admin",
+  },
 });
 
 export const productModel = mongoose.model(productsCollection, productosSchema);
